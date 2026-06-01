@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -18,14 +19,7 @@ def classify_mixture(df: pd.DataFrame) -> pd.DataFrame:
         df["Total_Fuel_Trim_Pct"] < -5,
     ]
     choices = ["Lean", "Rich"]
-    df["Mixture_Status"] = pd.Series(
-        pd.Categorical(
-            pd.array(conditions[0].map({True: "Lean", False: None}).fillna(
-                conditions[1].map({True: "Rich", False: "Nominal"})
-            )),
-            categories=["Rich", "Nominal", "Lean"],
-        )
-    )
+    df["Mixture_Status"] = np.select(conditions, choices, default="Nominal")
     return df
 
 
