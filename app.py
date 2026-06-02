@@ -21,6 +21,22 @@ st.markdown("""
     [data-testid="stHeader"] {
         background: transparent;
     }
+
+    /* Force all text to dark so it's readable on light background */
+    html, body, [class*="css"], [data-testid="stMarkdownContainer"],
+    [data-testid="stSidebar"] * {
+        color: #1e293b !important;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: #0f172a !important;
+    }
+    [data-testid="stMetricLabel"], [data-testid="stMetricValue"],
+    [data-testid="stMetricDelta"] {
+        color: #1e293b !important;
+    }
+    .stAlert p {
+        color: #1e293b !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
