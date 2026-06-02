@@ -10,36 +10,6 @@ st.set_page_config(
     layout="wide",
 )
 
-st.markdown("""
-<style>
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #f0f4ff 0%, #fafafa 50%, #f0f9ff 100%);
-    }
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #e8edf8 0%, #f5f7ff 100%);
-    }
-    [data-testid="stHeader"] {
-        background: transparent;
-    }
-
-    /* Force all text to dark so it's readable on light background */
-    html, body, [class*="css"], [data-testid="stMarkdownContainer"],
-    [data-testid="stSidebar"] * {
-        color: #1e293b !important;
-    }
-    h1, h2, h3, h4, h5, h6 {
-        color: #0f172a !important;
-    }
-    [data-testid="stMetricLabel"], [data-testid="stMetricValue"],
-    [data-testid="stMetricDelta"] {
-        color: #1e293b !important;
-    }
-    .stAlert p {
-        color: #1e293b !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
 st.title("🔧 OBD2 Engine Diagnostics Telemetry Lab")
 st.caption("Real-time automotive sensor analysis — fuel trim, RPM dynamics, and catalytic converter health")
 
