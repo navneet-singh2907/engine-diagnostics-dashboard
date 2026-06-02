@@ -90,10 +90,13 @@ st.divider()
 st.subheader("RPM vs. Total Fuel Trim")
 st.caption("Filter by engine load in the sidebar to isolate rich/lean conditions across the RPM range.")
 
-scatter_fig = rpm_vs_fuel_trim_scatter(df, load_range)
 filtered_count = len(df[df["Engine_Load_Pct"].between(load_range[0], load_range[1])])
-st.plotly_chart(scatter_fig, use_container_width=True)
-st.caption(f"{filtered_count:,} of {len(df):,} samples visible at load {load_range[0]:.0f}%–{load_range[1]:.0f}%")
+if filtered_count == 0:
+    st.warning(f"No data points match engine load {load_range[0]:.0f}%–{load_range[1]:.0f}%. Widen the load range in the sidebar.")
+else:
+    scatter_fig = rpm_vs_fuel_trim_scatter(df, load_range)
+    st.plotly_chart(scatter_fig, use_container_width=True)
+    st.caption(f"{filtered_count:,} of {len(df):,} samples visible at load {load_range[0]:.0f}%–{load_range[1]:.0f}%")
 
 st.divider()
 

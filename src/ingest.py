@@ -25,6 +25,9 @@ def load_telemetry(path: str | Path) -> pd.DataFrame:
     if missing:
         raise ValueError(f"CSV is missing required columns: {missing}")
 
+    if df.empty:
+        raise ValueError("Telemetry file contains no data rows.")
+
     for col, dtype in REQUIRED_COLUMNS.items():
         df[col] = pd.to_numeric(df[col], errors="coerce").astype(dtype)
 
