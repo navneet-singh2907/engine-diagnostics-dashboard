@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-_MIXTURE_COLORS = {"Rich": "#ef4444", "Nominal": "#22c55e", "Lean": "#f97316"}
+_MIXTURE_COLORS = {"Rich": "#ef4444", "Nominal": "#16a34a", "Lean": "#ea580c"}
 
 
 def rpm_vs_fuel_trim_scatter(df: pd.DataFrame, load_range: tuple[float, float]) -> go.Figure:
@@ -32,20 +32,22 @@ def rpm_vs_fuel_trim_scatter(df: pd.DataFrame, load_range: tuple[float, float]) 
             "Mixture_Status": "Mixture",
         },
         title=f"RPM vs. Total Fuel Trim — Engine Load {load_range[0]:.0f}%–{load_range[1]:.0f}%",
-        template="plotly_dark",
+        template="plotly_white",
     )
 
     # ±10% warning band
-    fig.add_hline(y=10, line_dash="dash", line_color="#fbbf24", line_width=1,
+    fig.add_hline(y=10, line_dash="dash", line_color="#dc2626", line_width=1,
                   annotation_text="+10% threshold", annotation_position="top right")
-    fig.add_hline(y=-10, line_dash="dash", line_color="#fbbf24", line_width=1,
+    fig.add_hline(y=-10, line_dash="dash", line_color="#dc2626", line_width=1,
                   annotation_text="-10% threshold", annotation_position="bottom right")
-    fig.add_hline(y=0, line_color="#6b7280", line_width=1)
+    fig.add_hline(y=0, line_color="#9ca3af", line_width=1)
 
     fig.update_layout(
         height=420,
         margin=dict(l=40, r=20, t=50, b=40),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
     )
     return fig
 
@@ -65,7 +67,7 @@ def o2_waveform_chart(df: pd.DataFrame, time_range: tuple[float, float]) -> go.F
         x=sliced["Timestamp_sec"],
         y=sliced["O2_Front_Volts"],
         name="Front O₂ (pre-cat)",
-        line=dict(color="#38bdf8", width=1.5),
+        line=dict(color="#2563eb", width=1.5),
         mode="lines",
     ))
 
@@ -73,12 +75,12 @@ def o2_waveform_chart(df: pd.DataFrame, time_range: tuple[float, float]) -> go.F
         x=sliced["Timestamp_sec"],
         y=sliced["O2_Rear_Volts"],
         name="Rear O₂ (post-cat)",
-        line=dict(color="#a78bfa", width=1.5),
+        line=dict(color="#7c3aed", width=1.5),
         mode="lines",
     ))
 
     # Stoichiometric reference at 0.45V
-    fig.add_hline(y=0.45, line_dash="dot", line_color="#6b7280", line_width=1,
+    fig.add_hline(y=0.45, line_dash="dot", line_color="#9ca3af", line_width=1,
                   annotation_text="λ=1 (0.45V)", annotation_position="top left")
 
     fig.update_layout(
@@ -86,9 +88,11 @@ def o2_waveform_chart(df: pd.DataFrame, time_range: tuple[float, float]) -> go.F
         xaxis_title="Time (seconds)",
         yaxis_title="Sensor Voltage (V)",
         yaxis=dict(range=[0, 1.05]),
-        template="plotly_dark",
+        template="plotly_white",
         height=380,
         margin=dict(l=40, r=20, t=50, b=40),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
     )
     return fig

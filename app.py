@@ -10,6 +10,20 @@ st.set_page_config(
     layout="wide",
 )
 
+st.markdown("""
+<style>
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(135deg, #f0f4ff 0%, #fafafa 50%, #f0f9ff 100%);
+    }
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #e8edf8 0%, #f5f7ff 100%);
+    }
+    [data-testid="stHeader"] {
+        background: transparent;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("🔧 OBD2 Engine Diagnostics Telemetry Lab")
 st.caption("Real-time automotive sensor analysis — fuel trim, RPM dynamics, and catalytic converter health")
 
