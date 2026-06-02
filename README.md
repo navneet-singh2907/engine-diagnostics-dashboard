@@ -151,6 +151,46 @@ python data/generate_dataset.py
 | `feature/dashboard-wiring` | Full chart integration with sidebar sliders |
 | `fix/classify-mixture-refactor` | Replaced fragile `map/fillna` chain with `np.select` |
 
+| `feature/edge-case-testing` | Stress tested 12 edge cases, fixed empty CSV crash and empty scatter |
+
+---
+
+## Robustness & Edge Cases
+
+The app was stress tested against 12 edge cases before release. All pass cleanly.
+
+### Bad CSV Inputs
+
+| Scenario | Behaviour |
+|---|---|
+| Missing required column | `ValueError` with the exact missing column name |
+| Non-numeric values in sensor column | `ValueError` listing which column and how many bad rows |
+| Empty CSV (headers only, no data) | `ValueError: Telemetry file contains no data rows.` |
+| Single data row | Loads and renders correctly |
+| File not found | `FileNotFoundError` with the full path |
+
+### Sensor Value Extremes
+
+| Scenario | Behaviour |
+|---|---|
+| RPM = 0 (stalled engine) | Chart renders correctly, scatter shows all points at x=0 |
+| Total fuel trim exactly at ±10% | Correctly treated as nominal — breach requires strictly greater than 10% |
+| O₂ voltages outside 0–1V physical range | Chart renders without crashing (no hard clamp applied) |
+
+### UI Edge Cases
+
+| Scenario | Behaviour |
+|---|---|
+| Load filter returns zero matching rows | Friendly `st.warning` shown instead of a blank or broken chart |
+| Time window collapsed to one second | O₂ waveform renders with 2 data points, no crash |
+
+### Data Integrity
+
+| Scenario | Behaviour |
+|---|---|
+| Duplicate timestamps in CSV | All rows loaded, duplicates preserved as-is |
+| Out-of-order timestamps | Loads and renders correctly — no sorting required |
+
 ---
 
 ## Diagnostic Logic Reference
