@@ -1,5 +1,4 @@
 import requests
-import streamlit as st
 
 _BASE = "https://api.nhtsa.gov"
 
@@ -13,7 +12,6 @@ def _fetch(url: str) -> dict:
     return resp.json()
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
 def get_recalls(make: str, model: str, year: int) -> list[dict]:
     """Return list of active recalls for the given vehicle. Empty list on any error."""
     try:
@@ -26,7 +24,6 @@ def get_recalls(make: str, model: str, year: int) -> list[dict]:
         return []
 
 
-@st.cache_data(ttl=3600, show_spinner=False)
 def get_complaints(make: str, model: str, year: int) -> list[dict]:
     """Return list of NHTSA complaints for the given vehicle. Empty list on any error."""
     try:

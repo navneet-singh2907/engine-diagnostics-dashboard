@@ -161,9 +161,13 @@ model = vcol2.text_input("Model", placeholder="e.g. Camry")
 year = vcol3.number_input("Year", min_value=1990, max_value=2025, value=2019, step=1)
 lookup = vcol4.button("🔍 Look Up", disabled=not (make and model), use_container_width=True)
 
+@st.cache_data(ttl=3600, show_spinner=False)
+def _cached_fault_context(make, model, year, direction):
+    return get_fault_context(make, model, year, direction)
+
 if lookup and make and model:
     with st.spinner("Querying NHTSA database..."):
-        ctx = get_fault_context(make.strip(), model.strip(), int(year), alert["direction"])
+        ctx = _cached_fault_context(make.strip(), model.strip(), int(year), alert["direction"])
 
     rcol1, rcol2, rcol3 = st.columns(3)
     rcol1.metric("Active Recalls", ctx["recall_count"])
